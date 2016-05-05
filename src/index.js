@@ -25,7 +25,6 @@ let fileList = [];
 function readFiles(fileList, dirname) {
   let docList = [];
   fileList.forEach(function(filename) {
-    console.log('Reading', dirname + '/' + filename);
     const content = fs.readFileSync(dirname + '/' + filename, 'utf-8');
     docList.push({
       _id: uuid.v1(),
@@ -36,14 +35,15 @@ function readFiles(fileList, dirname) {
 };
 
 function mdToCouchJson(dirname) {
-  console.log('Checking dirname', dirname);
-  const fileList = fs.readdirSync(dirname);
-  const mdList = fileList.filter(function(item) {
-    return /\.md$/.test(item);
-  });
-  const finalResult = readFiles(mdList, dirname)
-  console.log('finalResult' + JSON.stringify(finalResult));
-  return finalResult;
+  try {
+    const fileList = fs.readdirSync(dirname);
+    const mdList = fileList.filter(function(item) {
+      return /\.md$/.test(item);
+    });
+    return readFiles(mdList, dirname)
+  } catch(e) {
+    console.log(e);
+  }
 }
 
 module.exports.default = function(dirname = __dirname) {
