@@ -1,0 +1,42 @@
+{
+  "name": "md-to-couch",
+  "version": "0.0.1",
+  "description": "Convert list of markdown files with front matter into a CouchDB compatible JSON object, one document per file",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-register",
+    "test-dev": "mocha --compilers js:babel-register --watch",
+    "compile": "rm -rf dist && mkdir dist && babel src --out-file dist/index.js",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redbadger/md-to-couch.git"
+  },
+  "keywords": [
+    "CouchDB",
+    "markdown"
+  ],
+  "author": "Alexander Savin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redbadger/md-to-couch/issues"
+  },
+  "homepage": "https://github.com/redbadger/md-to-couch#readme",
+  "devDependencies": {
+    "babel-cli": "^6.8.0",
+    "babel-core": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-polyfill": "^6.8.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-register": "^6.8.0",
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "es6-promise": "^3.1.2",
+    "front-matter": "^2.0.7",
+    "markdown-parse": "^0.2.1",
+    "node-uuid": "^1.4.7"
+  }
+}
