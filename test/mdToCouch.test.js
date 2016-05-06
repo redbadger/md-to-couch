@@ -19,4 +19,8 @@ describe('mdToCouch', () => {
     assert.isDefined(mdToCouch(__dirname));
     expect(mdToCouch(__dirname).docs.length).to.equal(3);
   });
+
+  it('puts body of the markdown file into document', () => {
+    expect(mdToCouch(__dirname).docs[0].body).to.exist;
+  });
 });

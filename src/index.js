@@ -18,7 +18,6 @@
 import * as mdparser from "markdown-parse";
 import * as fs from 'fs';
 import * as uuid from "node-uuid";
-import * as frontmatter from 'front-matter';
 
 let fileList = [];
 
@@ -26,9 +25,11 @@ function readFiles(fileList, dirname) {
   let docList = [];
   fileList.forEach(function(filename) {
     const content = fs.readFileSync(dirname + '/' + filename, 'utf-8');
-    docList.push({
-      _id: uuid.v1(),
-      ...frontmatter.default(content).attributes
+    mdparser.default(content, function(err, result) {
+      docList.push({
+        _id: uuid.v1(),
+        ...result
+      });
     });
   });
   return {docs: docList};
