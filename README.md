@@ -1,15 +1,21 @@
 # md-to-couch
 
-Convert a folder of markdown files into CouchDB compatible JSON.
+Converts a folder of markdown files into CouchDB compatible JSON.
 
 ## How to use
 
 `npm i md-to-couch`
 
     import * as mdToCouch from "md-to-couch";
-    const couchJson = mdToCouch(__dirname);
+    const couchJson = mdToCouch({
+        dirname: __dirname,
+        parseDate: true
+        });
 
-`md-to-couch` accepts single argument with the path to the list of markdown files. Your files must have `.md` extension. They can have front matter YAML, which will also be parsed.
+## Options
+
+* `dirname` String: path to the list of markdown files. Your files must have `.md` extension. They can have front matter YAML, which will also be parsed.
+* `parseDate` Boolean: enable parsing of filenames for potential date and time. Often markdown files would include datetime info which can be useful to parse automatically.
 
 ## Batch import documents into CouchDB
 
