@@ -28,6 +28,7 @@ function readFiles(fileList, dirname) {
     mdparser.default(content, function(err, result) {
       docList.push({
         _id: uuid.v1(),
+        filename: filename,
         ...result
       });
     });
@@ -47,6 +48,10 @@ function mdToCouchJson(dirname) {
   }
 }
 
-module.exports.default = function(dirname = __dirname) {
-  return mdToCouchJson(dirname);
+module.exports.default = function(dirname) {
+  if(!dirname) {
+    return new Error('Path is not provided');
+  } else {
+    return mdToCouchJson(dirname);
+  }
 };

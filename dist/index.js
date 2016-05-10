@@ -28,10 +28,6 @@ var _nodeUuid = require("node-uuid");
 
 var uuid = _interopRequireWildcard(_nodeUuid);
 
-var _frontMatter = require("front-matter");
-
-var frontmatter = _interopRequireWildcard(_frontMatter);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var fileList = [];
@@ -40,9 +36,12 @@ function readFiles(fileList, dirname) {
   var docList = [];
   fileList.forEach(function (filename) {
     var content = fs.readFileSync(dirname + '/' + filename, 'utf-8');
-    docList.push(_extends({
-      _id: uuid.v1()
-    }, frontmatter.default(content).attributes));
+    mdparser.default(content, function (err, result) {
+      docList.push(_extends({
+        _id: uuid.v1(),
+        filename: filename
+      }, result));
+    });
   });
   return { docs: docList };
 };
@@ -60,8 +59,10 @@ function mdToCouchJson(dirname) {
   }
 }
 
-module.exports.default = function () {
-  var dirname = arguments.length <= 0 || arguments[0] === undefined ? __dirname : arguments[0];
-
-  return mdToCouchJson(dirname);
+module.exports.default = function (dirname) {
+  if (!dirname) {
+    return new Error('Path is not provided');
+  } else {
+    return mdToCouchJson(dirname);
+  }
 };

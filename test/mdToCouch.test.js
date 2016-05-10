@@ -6,13 +6,13 @@ const assert = chai.assert;
 
 describe('mdToCouch', () => {
   it('contains correct structure compatible with CouchDB', () => {
-    expect(mdToCouch().docs).to.exist;
-    expect(mdToCouch().docs).to.be.an('array');
+    expect(mdToCouch(__dirname).docs).to.exist;
+    expect(mdToCouch(__dirname).docs).to.be.an('array');
   });
 
-  it('compiles correctly with default argument', () => {
+  it('returns error when folder is not specified', () => {
     assert.isDefined(mdToCouch());
-    expect(mdToCouch().docs.length).to.equal(0);
+    assert.typeOf(mdToCouch(), 'Error');
   });
 
   it('works with custom directory argument', () => {
@@ -22,5 +22,10 @@ describe('mdToCouch', () => {
 
   it('puts body of the markdown file into document', () => {
     expect(mdToCouch(__dirname).docs[0].body).to.exist;
+  });
+
+  it('puts name of the markdown file into document', () => {
+    expect(mdToCouch(__dirname).docs[0].filename).to.exist;
+    expect(mdToCouch(__dirname).docs[0].filename).to.equal('2012-06-07-microsoft-bizspark-european-summit.html.md');
   });
 });
