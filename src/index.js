@@ -16,7 +16,6 @@
 //         "title": "Microsoft BizSpark European Summit"
 //       },
 //       "body": "",
-//       "html": "",
 //       "datetime": {
 //         "locale": "Thu Jun 07 2012 00:00:00 GMT+0100",
 //         "iso": "2012-06-06T23:00:00.000Z"
@@ -42,7 +41,8 @@ function readFiles(fileList, dirname, parseDate) {
       const newDoc = {
         _id: uuid.v1(),
         filename: filename,
-        ...result
+        attributes: result.attributes,
+        body: result.body
       };
 
       if(parseDate) {

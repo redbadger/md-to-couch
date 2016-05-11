@@ -1,7 +1,7 @@
 {
   "name": "md-to-couch",
-  "version": "0.1.0",
-  "description": "Convert list of markdown files with front matter into a CouchDB compatible JSON object, one document per file",
+  "version": "0.2.0",
+  "description": "Converts list of markdown files with front matter into a CouchDB compatible JSON object, one document per file",
   "main": "dist/index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register -R mocha-trumpet-reporter",

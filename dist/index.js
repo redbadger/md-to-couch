@@ -1,21 +1,5 @@
 "use strict";
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // This script will take all .md files in the given directory
-// and convert them into a JSON object, ready to be imported into
-// CouchDB.
-
-// Front matter will be included as well.
-
-// Example output
-//
-// {
-//   "docs": [
-//       {"_id": "0", "integer": 0, "string": "0"},
-//       {"_id": "1", "integer": 1, "string": "1"},
-//       {"_id": "2", "integer": 2, "string": "2"}
-//   ]
-// }
-
 var _markdownParse = require("markdown-parse");
 
 var mdparser = _interopRequireWildcard(_markdownParse);
@@ -30,39 +14,77 @@ var uuid = _interopRequireWildcard(_nodeUuid);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+// Using old school require because of https://github.com/moment/moment/issues/2608
+var moment = require('moment'); // This script will take all .md files in the given directory
+// and convert them into a JSON object, ready to be imported into
+// CouchDB.
+
+// Front matter will be included as well.
+
+// Example output
+//
+// {
+//   "docs": [
+//     {
+//       "_id": "55d3a8b0-169d-11e6-aca2-f711d4732412",
+//       "filename": "2012-06-07-microsoft-bizspark-european-summit.html.md",
+//       "attributes": {
+//         "title": "Microsoft BizSpark European Summit"
+//       },
+//       "body": "",
+//       "datetime": {
+//         "locale": "Thu Jun 07 2012 00:00:00 GMT+0100",
+//         "iso": "2012-06-06T23:00:00.000Z"
+//       }
+//     }
+//   ]
+// }
+
 var fileList = [];
 
-function readFiles(fileList, dirname) {
+function readFiles(fileList, dirname, parseDate) {
   var docList = [];
   fileList.forEach(function (filename) {
     var content = fs.readFileSync(dirname + '/' + filename, 'utf-8');
     mdparser.default(content, function (err, result) {
-      docList.push(_extends({
+      var newDoc = {
         _id: uuid.v1(),
-        filename: filename
-      }, result));
+        filename: filename,
+        attributes: result.attributes,
+        body: result.body
+      };
+
+      if (parseDate) {
+        var fileDate = moment(filename);
+        newDoc.datetime = {
+          locale: fileDate.toLocaleString(),
+          iso: fileDate.toISOString()
+        };
+      }
+
+      docList.push(newDoc);
     });
   });
   return { docs: docList };
 };
 
-function mdToCouchJson(dirname) {
+function mdToCouchJson(dirname, parseDate) {
   try {
     var _fileList = fs.readdirSync(dirname);
     var mdList = _fileList.filter(function (item) {
       return (/\.md$/.test(item)
       );
     });
-    return readFiles(mdList, dirname);
+    return readFiles(mdList, dirname, parseDate);
   } catch (e) {
     console.log(e);
   }
 }
 
-module.exports.default = function (dirname) {
-  if (!dirname) {
+module.exports.default = function (options) {
+  if (options === undefined || !options.hasOwnProperty('dirname')) {
     return new Error('Path is not provided');
   } else {
-    return mdToCouchJson(dirname);
+    return mdToCouchJson(options.dirname, options.parseDate);
   }
 };
