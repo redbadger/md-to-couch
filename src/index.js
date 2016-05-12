@@ -49,7 +49,10 @@ function readFiles(fileList, dirname, parseDate) {
         const fileDate = moment(filename);
         newDoc.datetime = {
           locale: fileDate.toLocaleString(),
-          iso: fileDate.toISOString()
+          iso: fileDate.toISOString(),
+          date: fileDate.date(),
+          month: fileDate.format('MMM'),
+          year: fileDate.year()
         };
       }
 

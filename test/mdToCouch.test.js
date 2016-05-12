@@ -38,4 +38,10 @@ describe('mdToCouch', () => {
     expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.iso).to.exist;
     expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.locale).to.equal('Thu Jun 07 2012 00:00:00 GMT+0100');
   });
+
+  it('adds formatted human readable date, month and year fields', () => {
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.date).to.exist;
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.month).to.exist;
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.year).to.exist;
+  });
 });

@@ -1,6 +1,6 @@
 {
   "name": "md-to-couch",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Converts list of markdown files with front matter into a CouchDB compatible JSON object, one document per file",
   "main": "dist/index.js",
   "scripts": {
