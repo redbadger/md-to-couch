@@ -40,8 +40,9 @@ describe('mdToCouch', () => {
   });
 
   it('adds formatted human readable date, month and year fields', () => {
-    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.date).to.exist;
-    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.month).to.exist;
-    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.year).to.exist;
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.date).to.equal('07');
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.month).to.equal('06');
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.monthSym).to.equal('Jun');
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.year).to.equal('2012');
   });
 });
