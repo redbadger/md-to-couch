@@ -3,6 +3,7 @@ const mdToCouch = require('../src/index.js').default;
 const chai = require('chai');
 const expect = chai.expect; // eslint-disable-line no-unused-vars
 const assert = chai.assert;
+const jsonlint = require('jsonlint');
 
 describe('mdToCouch', () => {
   it('contains correct structure compatible with CouchDB', () => {
@@ -44,5 +45,12 @@ describe('mdToCouch', () => {
     expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.month).to.equal('06');
     expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.monthSym).to.equal('Jun');
     expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.year).to.equal('2012');
+  });
+
+  it('escapes doublequote characters in generated html so that string is JSON compatible', () => {
+    var html = mdToCouch({dirname: __dirname, parseDate: true}).docs[2].html;
+    var htmlJson= JSON.stringify({a: html});
+    expect(jsonlint.parse(htmlJson)).not.to.throw;
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].html).to.exist;
   });
 });

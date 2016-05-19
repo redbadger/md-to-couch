@@ -8,4 +8,4 @@ externalLinks:
     url: http://siliconmilkroundabout.com
 ---
 
-Red Badger attends the UK leading job fair to find talented product managers, designers and software engineers to join its team.
+Red Badger attends the "UK leading job fair" to find talented product managers, designers and software engineers to join its team.

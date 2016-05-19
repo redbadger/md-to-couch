@@ -42,7 +42,8 @@ function readFiles(fileList, dirname, parseDate) {
         _id: uuid.v1(),
         filename: filename,
         attributes: result.attributes,
-        body: result.body
+        body: result.body,
+        html: result.html
       };
 
       if(parseDate) {
