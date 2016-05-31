@@ -4,7 +4,6 @@
 
 // Front matter will be included as well.
 
-
 // Example output
 //
 // {
@@ -18,7 +17,7 @@
 //       "body": "",
 //       "datetime": {
 //         "locale": "Thu Jun 07 2012 00:00:00 GMT+0100",
-//         "iso": "2012-06-06T23:00:00.000Z"
+//         "iso": "2012-06-07T12:00:00.000Z"
 //       }
 //     }
 //   ]
@@ -47,7 +46,8 @@ function readFiles(fileList, dirname, parseDate) {
       };
 
       if(parseDate) {
-        const fileDate = moment(filename);
+        const r = /\d\d\d\d-\d\d-\d\d/g;
+        let fileDate = moment(r.exec(filename)[0] + ' 12Z');
         newDoc.datetime = {
           locale: fileDate.toLocaleString(),
           iso: fileDate.toISOString(),

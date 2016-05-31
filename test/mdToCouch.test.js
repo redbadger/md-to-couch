@@ -37,7 +37,7 @@ describe('mdToCouch', () => {
   it('parses filename for date time when flag is specified', () => {
     expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime).to.exist;
     expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.iso).to.exist;
-    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.locale).to.equal('Thu Jun 07 2012 00:00:00 GMT+0100');
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.locale).to.exist;
   });
 
   it('adds formatted human readable date, month and year fields', () => {
@@ -53,4 +53,8 @@ describe('mdToCouch', () => {
     expect(jsonlint.parse(htmlJson)).not.to.throw;
     expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].html).to.exist;
   });
+
+  it('sets iso date and time to the correct date parsed from filename, and time set to midday', () => {
+    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].datetime.iso).to.equal('2012-06-07T12:00:00.000Z');
+  })
 });
