@@ -4,6 +4,11 @@
 
 // Front matter will be included as well.
 
+// Options:
+// dirname
+// parseDate
+// compileHtml
+
 // Example output
 //
 // {
@@ -32,20 +37,23 @@ const moment = require('moment');
 
 let fileList = [];
 
-function readFiles(fileList, dirname, parseDate) {
+function readFiles(fileList, options) {
   let docList = [];
   fileList.forEach(function(filename) {
-    const content = fs.readFileSync(dirname + '/' + filename, 'utf-8');
+    const content = fs.readFileSync(options.dirname + '/' + filename, 'utf-8');
     mdparser.default(content, function(err, result) {
       const newDoc = {
         _id: uuid.v1(),
         filename: filename,
         attributes: result.attributes,
-        body: result.body,
-        html: result.html
+        body: result.body
       };
 
-      if(parseDate) {
+      if(options.compileHtml) {
+        newDoc.html = result.html;
+      }
+
+      if(options.parseDate) {
         const r = /\d\d\d\d-\d\d-\d\d/g;
         let fileDate = moment(r.exec(filename)[0] + ' 12Z');
         newDoc.datetime = {
@@ -64,13 +72,13 @@ function readFiles(fileList, dirname, parseDate) {
   return {docs: docList};
 };
 
-function mdToCouchJson(dirname, parseDate) {
+function mdToCouchJson(options) {
   try {
-    const fileList = fs.readdirSync(dirname);
+    const fileList = fs.readdirSync(options.dirname);
     const mdList = fileList.filter(function(item) {
       return /\.md$/.test(item);
     });
-    return readFiles(mdList, dirname, parseDate);
+    return readFiles(mdList, options);
   } catch(e) {
     console.log(e);
   }
@@ -80,6 +88,6 @@ module.exports.default = function(options) {
   if(options === undefined || !options.hasOwnProperty('dirname')) {
     return new Error('Path is not provided');
   } else {
-    return mdToCouchJson(options.dirname, options.parseDate);
+    return mdToCouchJson(options);
   }
 };

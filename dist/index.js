@@ -34,7 +34,7 @@ var moment = require('moment'); // This script will take all .md files in the gi
 //       "body": "",
 //       "datetime": {
 //         "locale": "Thu Jun 07 2012 00:00:00 GMT+0100",
-//         "iso": "2012-06-06T23:00:00.000Z"
+//         "iso": "2012-06-07T12:00:00.000Z"
 //       }
 //     }
 //   ]
@@ -51,11 +51,13 @@ function readFiles(fileList, dirname, parseDate) {
         _id: uuid.v1(),
         filename: filename,
         attributes: result.attributes,
-        body: result.body
+        body: result.body,
+        html: result.html
       };
 
       if (parseDate) {
-        var fileDate = moment(filename);
+        var r = /\d\d\d\d-\d\d-\d\d/g;
+        var fileDate = moment(r.exec(filename)[0] + ' 12Z');
         newDoc.datetime = {
           locale: fileDate.toLocaleString(),
           iso: fileDate.toISOString(),

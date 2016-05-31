@@ -48,10 +48,10 @@ describe('mdToCouch', () => {
   });
 
   it('escapes doublequote characters in generated html so that string is JSON compatible', () => {
-    var html = mdToCouch({dirname: __dirname, parseDate: true}).docs[2].html;
+    var html = mdToCouch({dirname: __dirname, parseDate: true, compileHtml: true}).docs[2].html;
     var htmlJson= JSON.stringify({a: html});
     expect(jsonlint.parse(htmlJson)).not.to.throw;
-    expect(mdToCouch({dirname: __dirname, parseDate: true}).docs[0].html).to.exist;
+    expect(mdToCouch({dirname: __dirname, parseDate: true, compileHtml: true}).docs[0].html).to.exist;
   });
 
   it('sets iso date and time to the correct date parsed from filename, and time set to midday', () => {
