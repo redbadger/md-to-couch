@@ -8,7 +8,7 @@ var _fs = require("fs");
 
 var fs = _interopRequireWildcard(_fs);
 
-var _nodeUuid = require("node-uuid");
+var _nodeUuid = require("uuid");
 
 var uuid = _interopRequireWildcard(_nodeUuid);
 
