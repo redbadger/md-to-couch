@@ -30,7 +30,7 @@
 
 import * as mdparser from "markdown-parse";
 import * as fs from 'fs';
-import * as uuid from "node-uuid";
+import * as uuid from "uuid";
 
 // Using old school require because of https://github.com/moment/moment/issues/2608
 const moment = require('moment');
